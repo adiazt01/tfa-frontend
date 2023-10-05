@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_PROJECTS = axios.create({
-  baseURL: "http://localhost:3000/api/project/",
+  baseURL: import.meta.env.BACKEND_URL,
   withCredentials: true,
 });
 
