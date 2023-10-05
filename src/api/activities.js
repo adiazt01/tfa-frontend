@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_PROJECTS = axios.create({
-  baseURL: `${import.meta.env.BACKEND_URL}/api/project`,
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/project`,
   withCredentials: true,
 });
 
