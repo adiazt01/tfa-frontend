@@ -20,9 +20,9 @@ export const Login = () => {
 
   useEffect(() => {
     if (authenticated) {
-      navigate('/app/')
+      navigate("/app/");
     }
-  }, [authenticated])
+  }, [authenticated]);
 
   return (
     <AuthFormLayout title={"Login"}>
@@ -62,7 +62,10 @@ export const Login = () => {
       <div className="mt-4">
         <p className="text-center text-gray-500">
           ¿No tienes una cuenta?{" "}
-          <Link to="/auth/register" className="text-blue-500 hover:text-blue-400">
+          <Link
+            to="/auth/register"
+            className="text-blue-500 hover:text-blue-400"
+          >
             Regístrate
           </Link>
         </p>

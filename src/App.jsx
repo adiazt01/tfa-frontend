@@ -7,16 +7,16 @@ import { TaskProvider } from "./context/TaskContext";
 
 export const App = () => {
   return (
+            <BrowserRouter>
     <AuthProvider>
       <ProjectProvider>
         <ActivityProvider>
           <TaskProvider>
-            <BrowserRouter>
               <RoutesApp />
-            </BrowserRouter>
           </TaskProvider>
         </ActivityProvider>
       </ProjectProvider>
     </AuthProvider>
+            </BrowserRouter>
   );
 };

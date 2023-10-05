@@ -10,10 +10,13 @@ export const Register = () => {
     register,
     handleSubmit,
     formState: { errors: errorsForm },
-    authenticated,
   } = useForm();
   const navigate = useNavigate();
-  const { register: registerAuth, errors } = useContext(AuthContext);
+  const {
+    register: registerAuth,
+    errors,
+    authenticated,
+  } = useContext(AuthContext);
 
   const onSubmit = handleSubmit(async (data) => {
     await registerAuth(data);
@@ -66,9 +69,7 @@ export const Register = () => {
         )}
         {errors && (
           <div className="flex flex-col border-l-4 border-red-500 rounded bg-red-50 p-4 mt-2">
-            <p className="text-sm text-red-700">
-              Oops! Something went wrong.
-            </p>
+            <p className="text-sm text-red-700">Oops! Something went wrong.</p>
             {errors.error.map((error, i) => (
               <p className="text-sm text-red-700" key={i}>
                 ⚠️{error}
