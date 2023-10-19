@@ -37,11 +37,7 @@ export const updateTaskRequest = async (
   return resp;
 };
 
-export const deleteTaskRequest = async (
-  id_project,
-  id_activity,
-  id_task,
-) => {
+export const deleteTaskRequest = async (id_project, id_activity, id_task) => {
   console.log(id_task);
   const resp = await API_PROJECTS.delete(
     `${id_project}/activity/${id_activity}/task/${id_task}`

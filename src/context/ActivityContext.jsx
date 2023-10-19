@@ -50,7 +50,8 @@ export const ActivityProvider = ({ children }) => {
 
   const deleteActivity = async (id_project, id_activity) => {
     try {
-      const resp = await deleteActivityRequest(id_project, id_activity);
+      setActivities(activities.filter((activity => activity._id != id_activity)))
+      await deleteActivityRequest(id_project, id_activity);
     } catch (error) {
       console.log(error);
     }

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   AiFillDelete,
   AiFillEdit,
+  AiFillFileAdd,
   AiFillFlag,
   AiOutlineCheck,
   AiOutlineClose,
@@ -28,23 +29,20 @@ const renderTask = (
   };
 
   const statusColors = {
-    Complete: "bg-green-800",
-    "To complete": "bg-gray-700",
-    Doing: "bg-blue-800",
+    Complete: "bg-green-500 dark:bg-green-700",
+    "To complete": "bg-orange-500 dark:bg-orange-700",
+    Doing: "bg-blue-500 dark:bg-blue-700",
   };
   let colorBanner = statusColors[status];
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="grid gap-4">
       {tasks
         .filter((task) => task.status === status)
         .map((task, i) => {
           const { title, description, status, _id: id_task } = task;
           return (
-            <div
-              key={i}
-              className="my-4 flex flex-col shadow-lg rounded-lg overflow-hidden border-2 border-gray-700"
-            >
+            <div key={i} className="flex flex-col shadow-lg overflow-hidden">
               <div
                 className={`${colorBanner} py-2 px-4 gap-2 flex justify-between`}
               >
@@ -56,27 +54,29 @@ const renderTask = (
                     navigate(`activity/${id_activity}/${id_task}/task_update`)
                   }
                 >
-                  <AiOutlineEdit className="text-xl hover:text-blue-500 transition hover:scale-125 text-white" />
+                  <AiOutlineEdit className="text-xl transition hover:scale-125 text-white" />
                 </button>
                 <button
-                  onClick={() =>
+                onClick={() =>
                     deleteTaskUpdate(id_project, id_activity, id_task)
                   }
                 >
-                  <AiOutlineClose className="text-xl hover:text-red-500 transition hover:scale-125 text-white" />
+                  <AiOutlineClose className="text-xl transition hover:scale-125 text-white" />
                 </button>
               </div>
-
-              <div className="px-4 py-2 bg-gray-800 text-gray-300">
-                <div className="flex items-center mt-2">
-                  <AiFillFlag className="text-md text-gray-400 mr-2" />
-                  <p className="text-sm">Due: 12/08/2023</p>
+              <div className="px-4 bg-white dark:bg-gray-800">
+                <div className="flex items-center text-gray-900 dark:text-gray-300  mt-2">
+                  <AiFillFlag className="text-md  mr-2" />
+                  <p className="text-sm font-semibold">Due: 12/08/2023</p>
                 </div>
-                <p className="text-sm my-1" style={{ whiteSpace: "pre-wrap" }}>
+                <p
+                  className="text-sm mt-1 text-gray-900 dark:text-gray-200"
+                  style={{ whiteSpace: "pre-wrap" }}
+                >
                   {description}
                 </p>
               </div>
-              <div className="flex w-full justify-around mt-3 bg-gray-800 p-2 rounded">
+              <div className="flex w-full justify-around bg-white dark:bg-gray-800 p-2">
                 {buttonActions[status].map((actionStatus) =>
                   renderButton(
                     actionStatus,
@@ -103,9 +103,9 @@ const renderButton = (
   updateTaskStatus
 ) => {
   const statusColors = {
-    Complete: "hover:bg-green-500",
-    "To complete": "hover:bg-orange-500",
-    Doing: "hover:bg-blue-500",
+    Complete: "hover:bg-green-500 dark:hover:bg-green-700",
+    "To complete": "hover:bg-orange-500 dark:hover:bg-orange-700",
+    Doing: "hover:bg-blue-500 dark:hover:bg-blue-700",
   };
 
   let hoverColor = statusColors[status];
@@ -117,7 +117,7 @@ const renderButton = (
           status,
         })
       }
-      className={`py-2 w-full px-4 m-2 text-gray-400 transition duration-200 ease-in-out ${hoverColor} hover:text-white truncate rounded`}
+      className={`py-2 w-full px-4 m-2 text-gray-400 dark:text-gray-300 transition duration-200 ease-in-out ${hoverColor} hover:text-white truncate rounded`}
     >
       {status}
     </button>
@@ -143,58 +143,70 @@ export const ActivityCard = ({
     getTasks();
   }, []);
 
+  const deleteActivityHandler = async (id_project, id_activity) => {
+    await deleteActivity(id_project, id_activity);
+  };
+
   const updateTaskStatus = async (id_project, id_activity, id_task, status) => {
     await updateTask(id_project, id_activity, id_task, status);
     const resp = await getAllTasks(id_project, id_activity);
     setTasks(resp.data);
   };
 
-  const deleteActivityHandler = async (id_project, id_activity) => {
-    await deleteActivity(id_project, id_activity);
-    navigate(0);
-  };
-
   const deleteTaskUpdate = async (id_project, id_activity, id_task) => {
+    setTasks((tasks) => tasks.filter((task) => task._id != id_task));
     await deleteTask(id_project, id_activity, id_task);
-    const resp = await getAllTasks(id_project, id_activity);
-    setTasks(resp.data);
   };
 
   return (
-    <div className="flex flex-col mt-4 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-      <div className="flex items-center justify-end mt-2 text-gray-300 px-4 py-2">
+    <div className="flex flex-col mt-4 pb-6 bg-white dark:bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+      <div className="flex items-center justify-end mt-2 px-4 py-2">
         <div className="flex gap-2">
           <button
             onClick={() => navigate(`${id_activity}/activity_update`)}
-            className="py-2 px-2 rounded-3xl mr-2 scale-110 bg-blue-700 text-white transition-all duration-200 ease-in-out hover:bg-blue-600 hover:scale-125"
+            className="py-2 shadow-xl px-2 rounded-3xl mr-2 scale-110 bg-blue-500 dark:bg-blue-800 text-white transition-all duration-200 ease-in-out hover:bg-blue-600 dark:hover:bg-blue-900  hover:scale-125"
           >
             <AiFillEdit className="mx-auto" />
           </button>
           <button
             onClick={() => deleteActivityHandler(id_project, id_activity)}
-            className="py-2 px-2 rounded-3xl mr-2 scale-110 bg-red-700 text-white transition-all duration-200 ease-in-out hover:bg-red-600 hover:scale-125"
+            className="py-2 shadow-xl px-2 rounded-3xl mr-2 scale-110 bg-red-500 dark:bg-red-800 text-white transition-all duration-200 ease-in-out hover:bg-red-600 dark:hover:bg-red-900  hover:scale-125"
           >
             <AiFillDelete className="mx-auto" />
           </button>
           <button
+            onClick={() =>
+              navigate(
+                `/app/project/${id_project}/activity/${id_activity}/task_create`
+              )
+            }
+            className="py-2 shadow-xl px-2 rounded-3xl mr-2 scale-110 bg-green-500 dark:bg-green-800 text-white transition-all duration-200 ease-in-out hover:bg-green-600 dark:hover:bg-green-900  hover:scale-125"
+          >
+            <AiFillFileAdd className="mx-auto" />
+          </button>
+          {/*           <button
             onClick={() => editActivityHandler(id_project, id_activity)}
-            className="py-2 px-2 rounded-3xl mr-2 scale-110 bg-green-700 text-white transition-all duration-200 ease-in-out hover:bg-green-600 hover:scale-125"
+            className="py-2 shadow-xl px-2 rounded-3xl mr-2 scale-110 bg-green-500 text-white transition-all duration-200 ease-in-out hover:bg-green-600 hover:scale-125"
           >
             <AiOutlineCheck className="mx-auto" />
-          </button>
+          </button> */}
         </div>
       </div>
-      <h2 className="text-lg mt-2 font-semibold text-center text-gray-300 py-1 truncate px-4">
+      <h2 className="text-lg mt-2 font-semibold text-left text-gray-800 dark:text-gray-300 py-1 truncate px-4">
         {title}
       </h2>
       {description && (
-        <p className="px-4 mb-2  mt-1 text-gray-400">{description}</p>
+        <p className="px-4 mb-2 mt-1 text-gray-700 dark:text-gray-400">
+          {description}
+        </p>
       )}
       <div className="px-4 gap-4">
         {tasks?.length > 0 ? (
           <>
-            <h2 className="mt-4 text-center text-xl text-gray-400">Doing</h2>
-            <hr className="mt-2 mb-4 border-gray-500 rounded-lg" />
+            <h2 className="mt-4 text-center text-xl text-gray-800 dark:text-gray-300">
+              Doing ⚒️
+            </h2>
+            <hr className="mt-2 gap-2 mb-4 border-indigo-500 dark:border-indigo-700 border-2 rounded-lg" />
             {renderTask(
               "Doing",
               tasks,
@@ -210,10 +222,10 @@ export const ActivityCard = ({
       <div className="px-4">
         {tasks?.length > 0 ? (
           <>
-            <h2 className="mt-4 text-center text-xl text-gray-400">
-              To complete
+            <h2 className="mt-4 text-center text-xl text-gray-800 dark:text-gray-300">
+              To complete 💤
             </h2>
-            <hr className="mt-2 mb-4 border-gray-500 rounded-lg" />
+            <hr className="mt-2 mb-4 border-orange-500 dark:border-orange-700 border-2 rounded-lg" />
             {renderTask(
               "To complete",
               tasks,
@@ -229,8 +241,10 @@ export const ActivityCard = ({
       <div className="px-4">
         {tasks?.length > 0 ? (
           <>
-            <h2 className="mt-4 text-center text-xl text-gray-400">Complete</h2>
-            <hr className="mt-2 mb-4 border-gray-500 rounded-lg" />
+            <h2 className="mt-4 text-center text-xl text-gray-800 dark:text-gray-300">
+              Complete ✅
+            </h2>
+            <hr className="mt-2 mb-4 border-green-500 dark:border-green-700 border-2 rounded-lg" />
             {renderTask(
               "Complete",
               tasks,
@@ -243,16 +257,6 @@ export const ActivityCard = ({
           </>
         ) : null}
       </div>
-      <button
-        onClick={() =>
-          navigate(
-            `/app/project/${id_project}/activity/${id_activity}/task_create`
-          )
-        }
-        className="py-2 mt-4 px-4 bg-green-700 text-white transition duration-200 ease-in-out hover:bg-green-600"
-      >
-        Create task
-      </button>
     </div>
   );
 };

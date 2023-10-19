@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, Outlet } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 import { Login } from "./auth/pages/Login";
@@ -15,8 +15,15 @@ import { LandingPage } from "./public/views/LandingPage";
 
 export const ProtectedRoute = () => {
   const { loading, authenticated } = useContext(AuthContext);
-
   if (!loading && !authenticated) return <Navigate to="/auth/login" replace />;
+
+  return <Outlet />;
+};
+
+export const PublicRoute = () => {
+  const { loading, authenticated } = useContext(AuthContext);
+  console.log(loading);
+  if (!loading && authenticated) return <Navigate to="/app/" replace />;
 
   return <Outlet />;
 };
@@ -24,15 +31,19 @@ export const ProtectedRoute = () => {
 export const RoutesApp = () => {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage/>}/>
-      <Route path="/auth/login" element={<Login />} />
-      <Route path="/auth/register" element={<Register />} />
-
+      <Route path="/*" element={<PublicRoute />}>
+        <Route path="" element={<LandingPage />} />
+        <Route path="auth/login" element={<Login />} />
+        <Route path="auth/register" element={<Register />} />
+      </Route>
       <Route path="/app/*" element={<ProtectedRoute />}>
         <Route path="" element={<Dashboard />} />
         <Route path="project/project_create" element={<ProjectForm />} />
         <Route path="project/:id_project" element={<ViewProject />} />
-        <Route path="project/:id_project/project_update" element={<ProjectUpdateForm />} />
+        <Route
+          path="project/:id_project/project_update"
+          element={<ProjectUpdateForm />}
+        />
         <Route
           path="project/:id_project/activity_create"
           element={<ActivityCreateForm />}

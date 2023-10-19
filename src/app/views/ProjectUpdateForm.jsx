@@ -14,7 +14,7 @@ export const ProjectUpdateForm = () => {
   } = useForm();
 
   const { id_project } = useParams();
-  const { updateProject, getProject, selectedProject } =
+  const { updateProject, getProject, selectedProject, loading } =
     useContext(ProjectContext);
 
   const navigate = useNavigate();
@@ -24,44 +24,64 @@ export const ProjectUpdateForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log(selectedProject);
     if (selectedProject) {
       setValue("title", selectedProject.title);
       setValue("description", selectedProject.description);
     }
-    console.log(selectedProject);
   }, [selectedProject]);
 
-  const onSubmit = handleSubmit((data) => {
-    updateProject(id_project, data);
-    navigate(-1);
+  const onSubmit = handleSubmit(async (data) => {
+    await updateProject(id_project, data);
+    if (!loading) {
+      navigate(-1);
+    }
   });
   return (
     <AppLayout>
-      <section className="flex flex-col h-max px-5 pb-12 rounded-md shadow-2xl bg-gray-900 w-[90%]">
+            <section className="flex flex-col lg:w-[50%] h-max px-5 pb-12 rounded-md w-[90%]">
         <AiOutlineLeft
-          className="mt-6 p-1 text-gray-400 cursor-pointer w-10 h-10 hover:bg-gray-800 rounded-3xl transition"
+          className="mt-6 p-1 fill-indigo-500 cursor-pointer w-10 h-10 hover:bg-indigo-50 dark:hover:bg-indigo-950 rounded-3xl transition"
           onClick={() => navigate(-1)}
         />
-        <hr className="mt-4 mb-1 border-gray-700" />
-        <h1 className="mt-4 text-3xl text-gray-300">Update project 📦</h1>
-        <form className="flex flex-col mt-7 gap-6" onSubmit={onSubmit}>
+        <hr className="mt-2 border-2 border-indigo-300" />
+        <h1 className="mt-6 text-3xl font-medium text-indigo-900 dark:text-indigo-500">
+          Update {selectedProject?.title}
+        </h1>
+        <form className="flex flex-col mt-7" onSubmit={onSubmit}>
+          <label
+            htmlFor="title"
+            className="text-xl text-indigo-800 dark:text-indigo-500  tracking-wider font-medium"
+          >
+            Title
+          </label>
           <input
             {...register("title", { required: true })}
             type="text"
+            name="title"
             placeholder="Project title"
-            className="p-1 w-full h-11 indent-2 border-b-4 outline-none border-b-slate-500 focus:border-b-cyan-500 transition bg-slate-700 text-gray-300"
+            className="p-1 dark:text-white w-full h-11 mt-2 indent-2 border-2 border-slate-400 rounded outline-none focus:border-indigo-500 transition bg-transparent"
           />
           {errorsForm.title?.type === "required" && (
-            <p className="text-red-500 -mt-4">Title is required</p>
+            <p className="text-red-500 font-medium tracking-wide mt-2">
+              Title is required
+            </p>
           )}
+          <label
+            htmlFor="title"
+            className="text-xl mt-4 text-indigo-800 dark:text-indigo-500 tracking-wider font-medium"
+          >
+            Description{" "}
+          </label>
           <textarea
             {...register("description", { required: false })}
             placeholder="Something description..."
-            className="p-1 px-2 h-32 indent-2 border-b-4 outline-none border-b-slate-500 focus:border-b-cyan-500 transition bg-slate-700 text-gray-300"
+            className="p-1 dark:text-white h-32 w-full mt-2 indent-2 border-2 border-slate-400 rounded outline-none focus:border-indigo-500 transition bg-transparent"
           ></textarea>
-          <button className="w-[50%] bg-cyan-500 font-medium py-0.5 rounded">
-            Save project
+          <button
+            disabled={loading}
+            className="w-[50%] bg-indigo-600 dark:bg-black dark:border-2 dark:border-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:bg-slate-600 text-white dark:text-indigo-600 hover:dark:text-white mt-5 rounded-sm hover:cursor-pointer font-medium py-1 disabled:cursor-default transition"
+          >
+            Update project
           </button>
         </form>
       </section>

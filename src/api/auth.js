@@ -21,6 +21,6 @@ export const checkToken = async () => {
 };
 
 export const logoutRequest = async () => {
-  const resp = await API_AUTH.post('/logout')
-  return resp
-}
+  const resp = await API_AUTH.post("/logout");
+  return resp;
+};

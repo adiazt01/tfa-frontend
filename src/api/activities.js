@@ -22,11 +22,16 @@ export const createActivityRequest = async (id_project, data) => {
 };
 
 export const deleteActivityRequest = async (id_project, id_activity) => {
-  const resp = await API_PROJECTS.delete(`${id_project}/activity/${id_activity}`)
-  return resp
-}
+  const resp = await API_PROJECTS.delete(
+    `${id_project}/activity/${id_activity}`
+  );
+  return resp;
+};
 
 export const updateActivityRequest = async (id_project, id_activity, data) => {
-  const resp = await API_PROJECTS.put(`${id_project}/activity/${id_activity}`, data)
-  return resp
-} 
+  const resp = await API_PROJECTS.put(
+    `${id_project}/activity/${id_activity}`,
+    data
+  );
+  return resp;
+};

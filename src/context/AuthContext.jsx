@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 import { createContext, useEffect, useState } from "react";
 import { checkToken, loginAPI, logoutRequest, registerAPI } from "../api/auth";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -32,14 +31,13 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const resp = await logoutRequest();
+      await logoutRequest();
       setUser(null);
       setAuthenticated(false);
     } catch (error) {
       console.log(error);
     }
   };
-
   const register = async (data) => {
     try {
       setLoading(true);
@@ -59,16 +57,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /* Permite la verificaion del token durante el enrutado */
+  /* Permite la verificacion del token durante el enrutado */
   useEffect(() => {
+    const cookies = Cookies.get();
     const verifyToken = async () => {
-      const cookies = Cookies.get();
-      if (cookies.token) {
+      if (cookies) {
         try {
           const res = await checkToken(cookies.token);
+          console.log(res);
           if (res) {
             setUser(res.data);
-
             setAuthenticated(true);
             setLoading(false);
           } else {
