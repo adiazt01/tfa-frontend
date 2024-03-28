@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ProjectCard } from "../components/cards/ProjectCard";
 
 export const Dashboard = () => {
-  const { getAllProjects, projects } = useContext(ProjectContext);
+  const { getAllProjects, projects, loading } = useContext(ProjectContext);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -20,7 +20,12 @@ export const Dashboard = () => {
             Welcome {user?.username}!
           </h1>
         </div>
-        {projects?.length > 0 ? (
+        {loading && !projects && (
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+          </div>
+        )}
+        {projects?.length && !loading >= 0 ? (
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 w-[100%] lg:grid-cols-3 gap-6">
             {projects?.map((project) => (
               <ProjectCard key={project._id} {...project} />

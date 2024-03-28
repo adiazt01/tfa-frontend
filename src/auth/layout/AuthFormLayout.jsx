@@ -1,6 +1,16 @@
 import PropTypes from "prop-types";
 import { Navbar } from "../../public/components/Navbar";
 
+/**
+ * Renders a layout for authentication forms.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components to render within the layout.
+ * @param {string} props.title - The title of the form.
+ * @param {string} props.info - Additional information about the form.
+ * @returns {JSX.Element} The rendered component.
+ */
 export const AuthFormLayout = ({ children, title, info }) => {
   return (
     <>

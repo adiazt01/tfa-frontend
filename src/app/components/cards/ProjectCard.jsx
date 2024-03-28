@@ -40,24 +40,24 @@ export const ProjectCard = ({
 
   return (
     <>
-      <div className="flex justify-between lg:w-90 flex-col w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
-        <div className="gap-2 items-start">
-          <div>
-            <h3 className="truncate font-medium tracking-wide text-gray-800 dark:text-gray-300 text-lg">
-              {title}
-            </h3>
-            <div className="flex items-center text-gray-600 dark:text-gray-400">
-              <AiFillCalendar className="text-xl mr-1" />
-              <p>{`${new Date(createdAt).getDate()}/${
-                new Date(createdAt).getMonth() + 1
-              }/${new Date(createdAt).getFullYear()}`}</p>
-            </div>
+      <div className="flex gap-2 justify-between lg:w-90 flex-col w-full bg-white dark:bg-neutral-800 shadow-lg rounded p-4">
+        <div>
+          <h3 className="truncate font-medium tracking-wide text-gray-800 dark:text-gray-300 text-lg">
+            {title}
+          </h3>
+          <hr className="border my-2 border-neutral-50/20" />
+          <div className="flex items-center text-gray-600 dark:text-gray-400">
+            <AiFillCalendar className="text-xl mr-1" />
+            <p>{`${new Date(createdAt).getDate()}/${
+              new Date(createdAt).getMonth() + 1
+            }/${new Date(createdAt).getFullYear()}`}</p>
           </div>
-          <p className="text-gray-700 dark:text-gray-200 mb-2 break-words">
-            {description ? description : null}
-          </p>
         </div>
-        <div className="flex justify-center mt-4 flex-wrap gap-2">
+        <p className="text-gray-700 dark:text-gray-200 mb-2 break-words">
+          {description ? description : null}
+        </p>
+
+        <div className="flex justify-end mt-4 flex-wrap gap-2">
           <button
             onClick={() => setToggle(!toggle)}
             className="flex items-center gap-2 text-red-600 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition"

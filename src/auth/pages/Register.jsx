@@ -31,9 +31,10 @@ export const Register = () => {
   }, [authenticated]);
 
   return (
-    <AuthFormLayout title={"Register"} info={
-      "Create an account to access all the features that our app offers."
-    }>
+    <AuthFormLayout
+      title={"Register"}
+      info={"Create an account to access all the features that our app offers."}
+    >
       <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
         <InputField
           register={register}
