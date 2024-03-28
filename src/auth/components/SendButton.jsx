@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-export const SendButton = ({label}) => {
+export const SendButton = ({ label }) => {
   const { loading } = useContext(AuthContext);
 
   return (
     <button
       disabled={loading ? true : false}
-      className="text-center flex justify-center w-[70%] py-2 m-auto mt-2 rounded-sm font-medium shadow tracking-wide hover:bg-emerald-500 transition text-gray-300 bg-slate-500"
+      className="flex items-center justify-center w-full h-12 mt-4 text-lg font-semibold text-white transition bg-green-600 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-75"
+      type="submit"
     >
       {loading ? (
         <div role="status">
@@ -37,5 +38,5 @@ export const SendButton = ({label}) => {
 };
 
 SendButton.propTypes = {
-  label : PropTypes.string
-}
+  label: PropTypes.string,
+};

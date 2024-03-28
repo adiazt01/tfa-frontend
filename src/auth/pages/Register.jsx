@@ -4,6 +4,8 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import { SendButton } from "../components/SendButton";
+import { AlertBadge } from "../../app/components/badge/AletBadge";
+import { InputField } from "../../app/components/inputs/InputForm";
 
 export const Register = () => {
   const {
@@ -31,41 +33,53 @@ export const Register = () => {
   return (
     <AuthFormLayout title={"Register"}>
       <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
-        <input
-          {...register("username", { required: true })}
+        <InputField
+          register={register}
+          errorsForm={errorsForm}
+          name="username"
           type="text"
           placeholder="Username"
-          className="p-2 h-10 border-b-2 outline-none border-gray-300 focus:border-blue-500 transition bg-white text-gray-900"
+          validation={{ required: true }}
+          errorMessage="Username is required"
         />
         {errorsForm.username?.type === "required" && (
-          <p className="text-red-500 -mt-4">Username is required</p>
+          <AlertBadge message={"Username is required"} />
         )}
-        <input
-          {...register("email", { required: true })}
-          type="text"
+        <InputField
+          register={register}
+          errorsForm={errorsForm}
+          name="email"
+          type="email"
           placeholder="Email"
-          className="p-2 h-10 border-b-2 outline-none border-gray-300 focus:border-blue-500 transition bg-white text-gray-900"
+          validation={{ required: true }}
+          errorMessage="Email is required"
         />
         {errorsForm.email?.type === "required" && (
-          <p className="text-red-500 -mt-4">Email is required</p>
+          <AlertBadge message={"Email is required"} />
         )}
-        <input
-          {...register("password", { required: true })}
+        <InputField
+          register={register}
+          errorsForm={errorsForm}
+          name="password"
           type="password"
           placeholder="Password"
-          className="p-2 h-10 border-b-2 outline-none border-gray-300 focus:border-blue-500 transition bg-white text-gray-900"
+          validation={{ required: true }}
+          errorMessage="Password is required"
         />
         {errorsForm.password?.type === "required" && (
-          <p className="text-red-500 -mt-4">Password is required</p>
+          <AlertBadge message={"Password is required"} />
         )}
-        <input
-          {...register("confirmPassword", { required: true })}
+        <InputField
+          register={register}
+          errorsForm={errorsForm}
+          name="confirmPassword"
           type="password"
-          placeholder="Confirm your password"
-          className="p-2 h-10 border-b-2 outline-none border-gray-300 focus:border-blue-500 transition bg-white text-gray-900"
+          placeholder="Confirm Password"
+          validation={{ required: true }}
+          errorMessage="Password confirmation is required"
         />
-        {errorsForm.passwordConfirm?.type === "required" && (
-          <p className="text-red-500 -mt-4">Password confirm is required</p>
+        {errorsForm.confirmPassword?.type === "required" && (
+          <AlertBadge message={"Password confirmation is required"} />
         )}
         {errors && (
           <div className="flex flex-col border-l-4 border-red-500 rounded bg-red-50 p-4 mt-2">
@@ -79,10 +93,13 @@ export const Register = () => {
         )}
         <SendButton label={"Register"} />
       </form>
-      <div className="mt-4">
-        <p className="text-center text-gray-500">
+      <div className="mt-7">
+        <p className="text-center font-medium text-lg text-gray-500">
           Already have an account?{" "}
-          <Link to="/auth/login" className="text-blue-500 hover:text-blue-400">
+          <Link
+            to="/auth/login"
+            className="text-green-500 hover:text-green-400 transition font-medium"
+          >
             Login
           </Link>
         </p>
